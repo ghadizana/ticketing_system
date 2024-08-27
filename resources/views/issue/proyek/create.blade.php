@@ -24,7 +24,7 @@
                         <label class="col-sm-3 col-form-label text-start" for="name">Tipe RS</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
-                                <select class="form-control" name="tipeRs" required>
+                                <select class="form-select" name="tipeRs" required>
                                     <option value="">Pilih Tipe RS</option>
                                     <option value="A">Tipe A</option>
                                     <option value="B">Tipe B</option>
@@ -41,10 +41,12 @@
                         <label class="col-sm-3 col-form-label text-start" for="name">Group</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
-                                <input type="text" class="form-control" name="group"
-                                    placeholder="Pilih Group" autofocus value="{{ old('group') }}" />
+                                <select class="form-select" name="group" required>
+                                    <option value="1">Iya</option>
+                                    <option value="0">Tidak</option>
+                                </select>
                             </div>
-                            @error('group')
+                            @error('tipeRs')
                                 <div class="text text-danger text-start">{{ $message }}</div>
                             @enderror
                         </div>
@@ -87,8 +89,7 @@
                         <label class="col-sm-3 col-form-label text-start" for="konsepKerjasama">Konsep Kerjasama</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
-                                <select class="form-control" name="konsepKerjasama" required>
-                                    <option value="" disabled>Pilih Konsep Kerjasama</option>
+                                <select class="form-select" name="konsepKerjasama" required>
                                     <option value="Lising">Lising</option>
                                     <option value="Beli Putus">Beli Putus</option>
                                     <option value="KSO">KSO</option>
