@@ -19,7 +19,11 @@
                             <div class="layout-demo-placeholder">
                                 <div class="container d-flex justify-content-between align-items-center">
                                     <h4 class="py-3 mb-0">Detail Tiket</h4>
-                                    <a class="btn btn-primary" href="{{ route('tiket.create') }}">Tambah Tiket</a>
+                                    @if (Auth::user()->statusUser == 0)
+                                        <a class="btn btn-primary" href="{{ route('userTiket.create') }}">Tambah Tiket</a>
+                                    @else
+                                        <a class="btn btn-primary" href="{{ route('tiket.create') }}">Tambah Tiket</a>
+                                    @endif
                                 </div>
 
                                 <div class="card">
@@ -46,7 +50,7 @@
                                                         <td><a
                                                                 href="{{ route('tiket.show', $tiket->idTiket) }}">{{ $tiket->idTiket }}</a>
                                                         </td>
-                                                        <td>{{ $tiket->proyeks->namaProyek }}</td>
+                                                        <td>{{ $tiket->proyeks->namaProyek ?? 'N/A' }}</td>
                                                         <td>{{ $tiket->judul }}</td>
                                                         <td>{{ $tiket->deskripsi }}</td>
                                                         <td>{{ $tiket->kategori }}</td>

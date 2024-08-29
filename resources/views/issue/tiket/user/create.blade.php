@@ -27,6 +27,7 @@
                                                 <div class="text text-danger text-start">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        <input type="text" name="idProyek" hidden value="{{ Auth::user()->idProyek }}">
                                         <div class="row mb-3">
                                             <label class="col-sm-2 col-form-label" for="deskripsi">Deskripsi</label>
                                             <div class="col-sm-10">

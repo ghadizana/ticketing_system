@@ -37,8 +37,9 @@
                                                 for="basic-default-kategori">Kategori</label>
                                             <div class="col-sm-4">
                                                 <select id="basic-default-kategori" class="form-select" name="kategori">
-                                                    @foreach(['Pilih Kategori', 'Bugs', 'General', 'Question', 'Request Change'] as $kategori)
-                                                        <option value="{{ $kategori }}" {{ old('kategori', $tikets->kategori) == $kategori ? 'selected' : '' }}>
+                                                    @foreach (['Pilih Kategori', 'Bugs', 'General', 'Question', 'Request Change'] as $kategori)
+                                                        <option value="{{ $kategori }}"
+                                                            {{ old('kategori', $tikets->kategori) == $kategori ? 'selected' : '' }}>
                                                             {{ $kategori }}
                                                         </option>
                                                     @endforeach
@@ -49,7 +50,8 @@
                                             <div class="col-sm-4">
                                                 <select name="prioritas" id="basic-default-prioritas" class="form-select">
                                                     @foreach (['Pilih Prioritas', 'Low', 'Normal', 'High', 'Urgent', 'Immediete'] as $item)
-                                                        <option value="{{ $item }}" {{ old('prioritas', $tikets->prioritas) == $item ? 'selected' : '' }}>
+                                                        <option value="{{ $item }}"
+                                                            {{ old('prioritas', $tikets->prioritas) == $item ? 'selected' : '' }}>
                                                             {{ $item }}
                                                         </option>
                                                     @endforeach
@@ -62,7 +64,8 @@
                                             <div class="col-sm-4">
                                                 <select name="severity" id="basic-default-severity" class="form-select">
                                                     @foreach (['Pilih Severity', 'Minor', 'Major'] as $item)
-                                                        <option value="{{ $item }}" {{ old('severity', $tikets->severity) == $item ? 'selected' : '' }}>
+                                                        <option value="{{ $item }}"
+                                                            {{ old('severity', $tikets->severity) == $item ? 'selected' : '' }}>
                                                             {{ $item }}
                                                         </option>
                                                     @endforeach
@@ -73,7 +76,8 @@
                                             <div class="col-sm-4">
                                                 <select name="status" id="basic-default-status" class="form-select">
                                                     @foreach (['Pilih Status', 'On Progress', 'Discuss', 'Done', 'Closed'] as $item)
-                                                        <option value="{{ $item }}" {{ old('prioritas', $tikets->prioritas) == $item ? 'selected' : '' }}>
+                                                        <option value="{{ $item }}"
+                                                            {{ old('prioritas', $tikets->prioritas) == $item ? 'selected' : '' }}>
                                                             {{ $item }}
                                                         </option>
                                                     @endforeach
@@ -110,7 +114,9 @@
                                             <label class="col-sm-2 col-form-label" for="basic-default-tglKirim">Tanggal
                                                 Kirim</label>
                                             <div class="col-sm-4">
-                                                <input type="text" disabled name="created_at" class="form-control" id="basic-default-tglKirim" value="{{ old('created_at', $tikets->created_at)->isoFormat('DD MMM YYYY') }}" />
+                                                <input type="text" disabled name="created_at" class="form-control"
+                                                    id="basic-default-tglKirim"
+                                                    value="{{ old('created_at', $tikets->created_at)->isoFormat('DD MMM YYYY') }}" />
                                             </div>
                                             <label class="col-sm-2 col-form-label" for="basic-default-dueDate">Due
                                                 Date</label>
@@ -121,8 +127,7 @@
                                             </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <label class="col-sm-2 col-form-label"
-                                                for="basic-default-tglDikerjakan">Tanggal
+                                            <label class="col-sm-2 col-form-label" for="basic-default-tglDikerjakan">Tanggal
                                                 Dikerjakan</label>
                                             <div class="col-sm-4">
                                                 <input type="date" name="tglDikerjakan" class="form-control"
@@ -205,7 +210,8 @@
                                                 for="basic-default-tglPersetujuan">Mandays</label>
                                             <div class="col-sm-4">
                                                 <input type="number" name="mandays" class="form-control"
-                                                    placeholder="Masukkan mandays" value="{{ old('mandays', $tikets->mandays) }}">
+                                                    placeholder="Masukkan mandays"
+                                                    value="{{ old('mandays', $tikets->mandays) }}">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -216,7 +222,7 @@
                                                         $filename = basename($image->path);
                                                         $extension = pathinfo($filename, PATHINFO_EXTENSION);
                                                     @endphp
-                                                    @if (in_array($extension, ['jpg', 'jpeg', 'png',]))
+                                                    @if (in_array($extension, ['jpg', 'jpeg', 'png']))
                                                         <img style="width: 30%; height: auto;"
                                                             src="{{ asset('storage/lampirans/' . $image->path) }}"><br>
                                                     @else
@@ -230,13 +236,16 @@
 
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-sm-10">
-                                                <a type="button" href="javascript:history.back()"
-                                                    class="btn btn-danger">Batal</a>
-                                                <button type="submit" class="btn btn-success">Edit Tiket</button>
+                                        @if (auth()->user()->statusUser == 1)
+                                            <div class="row">
+                                                <div class="col-sm-10">
+                                                    <a type="button" href="javascript:history.back()"
+                                                        class="btn btn-danger">Batal</a>
+                                                    <button type="submit" class="btn btn-success">Edit Tiket</button>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
+
                                     </form>
                                 </div>
                             </div>
