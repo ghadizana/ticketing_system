@@ -25,13 +25,15 @@
 
                     <div class="mb-3">
                         <label for="permissions[]" class="form-label">Nama Akses</label>
-                        <br>
-                        <select class="form-control" id="permissions[]" name="permissions[]" multiple>
+                        <div class="d-flex flex-wrap">
                             @foreach ($permissions as $permission)
-                                <option @selected($grupUser->hasPermissionTo($permission->name)) value="{{ $permission->name }}">
-                                    {{ $permission->name }}</option>
+                                <div class="d-flex align-items-center mb-3" style="width: 50%;">
+                                    <input class="form-check-input me-2" type="checkbox" name="permissions[]"
+                                        value="{{ $permission->name }}" @if($grupUser->hasPermissionTo($permission->name)) checked @endif />
+                                    <label>{{ $permission->name }}</label>
+                                </div>
                             @endforeach
-                        </select>
+                        </div>
                     </div>
 
 

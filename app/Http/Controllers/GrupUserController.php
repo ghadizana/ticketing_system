@@ -36,13 +36,22 @@ class GrupUserController extends Controller
             : back()->with('failed', 'Grup user was not created successfully.');
     }
 
-    public function update(Role $role, StoreGrupUserRequest $request)
+    public function update(StoreGrupUserRequest $request, $id)
     {
-        
-        return $role->update($request->validated())
-            && $role->syncPermissions(!blank($request->permissions) ? $request->permissions : array())
-            ? back()->with('success', 'Role has been updated successfully!')
-            : back()->with('failed', 'Role was not updated successfully!');
+        try {
+            $role = Role::find($id);
+            $role->update([
+                'name' => $request->name,
+                'deskripsi' => $request->deskripsi,
+            ]);
+
+            return Role::find($id)
+                ?->syncPermissions(!blank($request->permissions) ? $request->permissions : array())
+                ? back()->with('success', 'Grup user has been updated successfully')
+                : back()->with('failed', 'Grup user was not updated successfully');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public function destroy(Role $grupUser)
