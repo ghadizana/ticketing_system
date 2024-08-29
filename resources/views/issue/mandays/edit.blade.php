@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="mb-3">
                             <label for="idProyek" class="form-label">Nama Proyek</label>
-                            <select class="form-control" id="idProyek" name="idProyek" data-choices
+                            <select class="form-select" id="idProyek" name="idProyek" data-choices
                                 data-choices-removeItem>
                                 @foreach ($proyeks as $proyek)
                                     <option value="{{ $item->idProyek }}">{{ $proyek->namaProyek }}</option>

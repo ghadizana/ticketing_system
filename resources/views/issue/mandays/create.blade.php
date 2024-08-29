@@ -11,7 +11,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="route" class="form-label">Nama Proyek</label>
-                        <select class="form-control" id="idProyek" name="idProyek" data-choices
+                        <select class="form-select" id="idProyek" name="idProyek" data-choices
                             data-choices-removeItem>
                             @foreach ($proyeks as $proyek)
                                 <option value="{{ $proyek->idProyek }}">{{ $proyek->namaProyek }}</option>
