@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GrupUserController;
 use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\MandaysController;
@@ -30,10 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('proyek', ProyekController::class);
     Route::resource('mandays', MandaysController::class);
     Route::resource('tiket', TiketController::class);
-    Route::controller(TiketController::class)->group(function () {
-        Route::get('/create-tiket', 'user_create')->name('userTiket.create');
-        Route::post('/create-tiket', 'store')->name('create-tiket');
-    });
+    Route::get('/create-tiket', [TiketController::class, 'user_create'])->name('userTiket.create');
 
     Route::resource('komentar', KomentarController::class);
 
