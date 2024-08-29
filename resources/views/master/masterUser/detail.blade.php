@@ -28,19 +28,19 @@
                                         </div>
                                     </div>
                                     <hr class="my-0" />
-                                    @if ($errors->any())
-                                            <div class="alert alert-danger">
-                                                <ul>
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
                                     <form action="{{ route('masterUser.update', $users->userId) }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <div class="card-body">
+                                            @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
                                             <div class="row">
                                                 <div class="mb-3 col-md-6">
                                                     <label for="lastName" class="form-label">Id Karyawan</label>
@@ -80,6 +80,7 @@
                                                 <div class="mb-3 col-md-6">
                                                     <label for="lastName" class="form-label">Nama Grup User</label>
                                                     <select name="role" class="form-select">
+                                                        <option value="" disabled selected>Pilih Grup User</option>
                                                         @foreach ($roles as $role)
                                                             <option @selected($users->hasRole($role->name))
                                                                 value="{{ $role->name }}">

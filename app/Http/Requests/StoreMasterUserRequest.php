@@ -25,11 +25,13 @@ class StoreMasterUserRequest extends FormRequest
             'nama' => 'required|string',
             'email' => 'required|string|email|unique:users',
             'username' => 'required|string|unique:users',
-            'idProyek' => 'required|string',
+            'password' => 'required|string',
+            'idProyek' => 'nullable|string',
             'idKaryawan' => 'required|string|unique:users',
             'role' => 'nullable|string',
             'idDepartment' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            // 'statusUser' => 'required',
         ];
     }
 }

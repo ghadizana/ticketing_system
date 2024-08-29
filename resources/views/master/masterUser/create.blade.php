@@ -21,7 +21,7 @@
                             @enderror
                         </div>
                     </div>
-                    {{-- <div class="row mb-3 form-password-toggle">
+                    <div class="row mb-3 form-password-toggle">
                         <label class="col-sm-3 col-form-label text-start" for="password">Password</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
@@ -34,7 +34,7 @@
                                 <div class="text text-danger text-start">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="row mb-3">
                         <label class="col-sm-3 col-form-label text-start" for="name">Nama</label>
                         <div class="col-sm-9">
@@ -53,6 +53,21 @@
                             <div class="input-group input-group-merge">
                                 <input type="email" class="form-control" name="email"
                                     placeholder="Masukkan email anda" autofocus required value="{{ old('email') }}" />
+                            </div>
+                            @error('email')
+                                <div class="text text-danger text-start">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-3 col-form-label text-start" for="statusUser">Status User</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-merge">
+                                <select name="statusUser" id="statusUser" class="form-select">
+                                    <option value="" disabled selected>Status User</option>
+                                    <option value="1">Karyawan</option>
+                                    <option value="0">Client</option>   
+                                </select>
                             </div>
                             @error('email')
                                 <div class="text text-danger text-start">{{ $message }}</div>
@@ -81,7 +96,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <input type="text" class="form-control" name="idKaryawan"
-                                    placeholder="Masukkan id karyawan anda" autofocus required
+                                    placeholder="Masukkan id karyawan anda" autofocus
                                     value="{{ old('idKaryawan') }}" />
                             </div>
                             @error('idKaryawan')
@@ -122,9 +137,7 @@
                     <div class="row mb-3">
                         <label class="col-sm-3 col-form-label text-start" for="formFile">Foto Pengguna</label>
                         <div class="col-sm-9">
-                            <div class="input-group input-group-merge">
-                                <input type="file" class="form-control" name="image" autofocus required />
-                            </div>
+                            <input type="file" class="filepond" name="image" autofocus/>
                         </div>
                         @error('image')
                             <div class="text text-danger text-start">{{ $message }}</div>

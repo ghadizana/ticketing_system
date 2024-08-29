@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMasterUserRequest;
 use App\Http\Requests\UpdateMasterUserRequest;
+use App\Models\Profile;
 use App\Models\Proyek;
+use App\Models\TemporaryImage;
 use App\Models\User;
-use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
 class MasterUserController extends Controller
@@ -44,39 +47,80 @@ class MasterUserController extends Controller
 
     public function store(StoreMasterUserRequest $request, User $user)
     {
-        $imageName = time() . '.' . $request->image->extension();
-        $request->image->move(public_path('storage/uploads'), $imageName);
+        $temporaryFiles = TemporaryImage::all();
+        $validator = Validator::make($request->all(), $request->rules());
+
+        if ($validator->fails()) {
+            foreach ($temporaryFiles as $temporaryFile) {
+                Storage::deleteDirectory('images/tmp/' . $temporaryFile->folder);
+                $temporaryFile->delete();
+            }
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $user = User::create(array_merge(
-            $request->validated(),
+            $validator->validated(),
             array(
-                'password' => Hash::make('password'),
-                'image' => $imageName,
+                'password' => Hash::make($request->password),
             )
         ))?->assignRole(!blank($request->role) ? $request->role : array());
 
-        return $user
-            ? back()->with('success', 'User berhasil dibuat')
-            : back()->with('failed', 'User gagal dibuat');
+        if ($user) {
+            foreach($temporaryFiles as $temporaryFile) {
+                Storage::copy('images/tmp/' . $temporaryFile->folder . '/' . $temporaryFile->file, 'profiles/' . $temporaryFile->folder . '/' . $temporaryFile->file);
+                Profile::create([
+                    'userId' => $user->userId,
+                    'name' => $temporaryFile->file,
+                    'path' => 'profiles/' . $temporaryFile->folder . '/' . $temporaryFile->file
+                ]);
+                Storage::deleteDirectory('images/tmp/' . $temporaryFile->folder);
+                $temporaryFile->delete();
+            }
+
+            return back()->with('success', 'User berhasil');
+        } else {
+            foreach ($temporaryFiles as $temporaryFile) {
+                Storage::deleteDirectory('images/tmp/' . $temporaryFile->folder);
+                $temporaryFile->delete();
+            }
+            
+            return back()->with('failed', 'User gagal');
+        }
     }
 
-    public function update(UpdateMasterUserRequest $request, User $users, UserService $userService)
+    public function update(UpdateMasterUserRequest $request, $userId)
     {
-        return $userService->update($request, $users)
-        ? back()->with('success', 'User berhasil diperbaharui')
-        : back()->with('failed', 'User gagal diperbaharui');
+        try {
+            $user = User::find($userId);
+            $user->update([
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'username' => $request->username,
+                'idProyek' => $request->idProyek,
+                'idKaryawan' => $request->idKaryawan,
+                'role' => $request->role,
+                'idDepartment' => $request->idDepartment,
+                'image' => $request->image,
+            ]);
+
+            return User::find($userId)
+            ?->syncRoles(!blank($request->role) ? $request->role : array())
+            ? back()->with('success', 'User has been updated successfully')
+            : back()->with('failed', 'User was not updated successfully');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
 
     public function destroy($userId)
     {
-        $users = User::where('userId', $userId);
-
-        if ($users) {
-            $users->delete();
-            return redirect()->route('masterUser.index')->with('success', 'User deleted successfully');
-        } else {
-            return redirect()->route('masterUser.index')->with('error', 'User not found');
+        $user = User::find($userId);
+        if ($user) {
+            $user->profile()->delete();
+            $user->delete();
         }
+
+        return redirect()->back();
     }
 }

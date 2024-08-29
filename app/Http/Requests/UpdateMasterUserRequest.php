@@ -25,11 +25,11 @@ class UpdateMasterUserRequest extends FormRequest
             'nama' => 'required|string',
             'email' => 'required|string|email',
             'username' => 'required|string',
-            'idProyek' => 'required|string',
+            'idProyek' => 'nullable|string',
             'idKaryawan' => 'required|string',
-            'role' => 'required|string',
-            'idDepartment' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'role' => 'nullable|string',
+            'idDepartment' => 'required|string',
+            'image' => 'nullable',
         ];
     }
 }
