@@ -59,7 +59,7 @@ class KomentarController extends Controller
     public function destroy($idKomentar)
     {
         $komentar = Komentar::find($idKomentar);
-        if ($komentar) {
+        if ($komentar && $komentar->userId === Auth::user()->userId) {
             // Delete associated images
             $komentar->images()->delete();
 
