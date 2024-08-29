@@ -18,13 +18,17 @@ class TiketController extends Controller
 {
     public function index(Request $request)
     {
-        $tikets = Tiket::query()
-            ->when(!blank($request->search), function ($query) use ($request) {
-                return $query
-                    ->where('judul', 'like', '%' . $request->search . '%');
-            })
-            ->orderBy('idTiket')
-            ->paginate(50);
+        $user = auth()->user();
+
+        if ($user->statusUser == 1) {
+            $tikets = Tiket::all();
+        } else {
+            if ($user->idProyek) {
+                $tikets = Tiket::where('idProyek', $user->idProyek)->get();
+            } else {
+                $tikets = collect();
+            }
+        }
         $proyeks = Proyek::all();
 
         return view('issue.tiket.index', compact('tikets', 'proyeks'));
@@ -116,6 +120,11 @@ class TiketController extends Controller
             'tglSelesai' => \Carbon\Carbon::parse($request->input('tglSelesai'))->format('Y-m-d'),
         ]);
 
+        $tiket = Tiket::findOrFail($idTiket);
+        
+        $oldMandays = $tiket->mandays;
+        $newMandays = $request->input('mandays');
+
         $tikets = Tiket::where('idTiket', $idTiket)->update($request->only([
             'idProyek' => 'nullable',
             'judul' => 'nullable',
@@ -139,9 +148,19 @@ class TiketController extends Controller
             'tglSelesai' => 'nullable',
             'status' => 'nullable',
             'lampiran' => 'nullable',
+            'idMandays' => 'required|exists:mandays,idMandays',
+            'mandays' => 'required|numeric|min:0',
         ]));
 
-        return redirect()->route('tiket.index');
+        if ($tikets) {
+            $mandaysRecord = Mandays::findOrFail($request->input('idMandays'));
+            $difference = $newMandays - $oldMandays;
+
+            $mandaysRecord->increment('terpakai', $difference);
+            $mandaysRecord->decrement('sisa', $difference);
+        }
+
+        return redirect()->back();
     }
 
     public function destroy($idTiket)
@@ -154,5 +173,4 @@ class TiketController extends Controller
 
         return redirect()->back();
     }
-
 }
