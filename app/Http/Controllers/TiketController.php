@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lampiran;
-use App\Models\Mandays;
-use App\Models\Menu;
-use App\Models\Proyek;
-use App\Models\TemporaryImage;
-use App\Models\Tiket;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
+use App\Models\Tiket;
+use App\Models\Proyek;
+use App\Models\Mandays;
+use App\Models\Lampiran;
 use Illuminate\Http\Request;
+use App\Models\TemporaryImage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\StoreTiketRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class TiketController extends Controller
@@ -45,7 +46,7 @@ class TiketController extends Controller
     public function user_create()
     {
         $proyeks = Proyek::all();
-        $users = User::all();
+        $users = User::where('idProyek', Auth::user()->idProyek)->get();
 
         return view('issue.tiket.user.create', compact('proyeks', 'users'));
     }
@@ -112,7 +113,7 @@ class TiketController extends Controller
         return view('issue.tiket.edit', compact('tikets', 'proyeks', 'users', 'mandays'));
     }
 
-    public function update($idTiket, Request $request)
+    public function update(StoreTiketRequest $request, $idTiket)
     {
         $request->merge([
             'tglDikerjakan' => \Carbon\Carbon::parse($request->input('tglDikerjakan'))->format('Y-m-d'),
@@ -121,44 +122,7 @@ class TiketController extends Controller
         ]);
 
         $tiket = Tiket::findOrFail($idTiket);
-        
-        $oldMandays = $tiket->mandays;
-        $newMandays = $request->input('mandays');
-
-        $tikets = Tiket::where('idTiket', $idTiket)->update($request->only([
-            'idProyek' => 'nullable',
-            'judul' => 'nullable',
-            'deskripsi' => 'nullable',
-            'kategori' => 'nullable',
-            'prioritas' => 'nullable',
-            'severity' => 'nullable',
-            'picRs' => 'nullable',
-            'alasanPermintaan' => 'nullable',
-            'dampak' => 'nullable',
-            'mandays' => 'nullable',
-            'label' => 'nullable',
-            'assignTo' => 'nullable',
-            'plAviat' => 'nullable',
-            'persetujuan' => 'nullable',
-            'tglPersetujuan' => 'nullable',
-            'tag' => 'nullable',
-            'mandays' => 'nullable',
-            'tglDikerjakan' => 'nullable',
-            'dueDate' => 'nullable',
-            'tglSelesai' => 'nullable',
-            'status' => 'nullable',
-            'lampiran' => 'nullable',
-            'idMandays' => 'required|exists:mandays,idMandays',
-            'mandays' => 'required|numeric|min:0',
-        ]));
-
-        if ($tikets) {
-            $mandaysRecord = Mandays::findOrFail($request->input('idMandays'));
-            $difference = $newMandays - $oldMandays;
-
-            $mandaysRecord->increment('terpakai', $difference);
-            $mandaysRecord->decrement('sisa', $difference);
-        }
+        $tiket->update($request->all());
 
         return redirect()->back();
     }
