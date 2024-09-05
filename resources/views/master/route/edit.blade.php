@@ -28,7 +28,7 @@
                         <div class="col-sm-9">
                             <select name="permission_name" id="permission_name" class="form-select">
                                 @foreach ($permissions as $permission)
-                                    <option value="{{ $permission->name }}">{{ $permission->name }}</option>
+                                    <option value="{{ $permission->name }}" {{ $permission->name == $routeGroup->permission_name ? 'selected' : '' }}>{{ $permission->name }}</option>
                                 @endforeach
                             </select>
                             @error('permission_name')
