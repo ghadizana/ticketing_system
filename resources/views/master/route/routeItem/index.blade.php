@@ -15,7 +15,7 @@
                 <tr>
                     <th>Nama</th>
                     <th>Route</th>
-                    <th>Permission</th>
+                    <th>Nama Menu</th>
                     <th>Status</th>
                     <th>Aksi</th>
                 </tr>
@@ -40,14 +40,12 @@
                                     data-bs-toggle="dropdown"><i
                                         class="bx bx-dots-vertical-rounded"></i></button>
                                 <div class="dropdown-menu">
-                                    {{-- <a class="dropdown-item" href="{{ route('route.item.index', $routeGroup->id) }}"><i
-                                            class="bx bx-edit-alt me-2"></i>Manage Items</a>
                                     <a class="dropdown-item" href="#"
-                                        data-bs-target="#modal-form-edit-route-{{ $routeGroup->id }}"
+                                        data-bs-target="#modal-form-edit-route-item-{{ $routeItem->id }}"
                                         data-bs-toggle="modal"><i
                                             class="bx bx-edit-alt me-2"></i>Edit</a>
                                     <form
-                                        action="{{ route('route.destroy', $routeGroup->id) }}"
+                                        action="{{ route('route.item.destroy', [$route->id, $routeItem->id]) }}"
                                         method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -55,9 +53,9 @@
                                             onclick="return confirm('Apakah anda yakin ingin menghapus?')">
                                             <i class="bx bx-trash me-2"></i>Hapus
                                         </button>
-                                    </form> --}}
+                                    </form>
                                 </div>
-                                {{-- @include('issue.proyek.edit') --}}
+                                @include('master.route.routeItem.edit')
                             </div>
                         </td>
                     </tr>

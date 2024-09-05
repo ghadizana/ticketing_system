@@ -19,4 +19,14 @@ class RouteItemService
             )
         ));
     }
+
+    public function update(Request $request, RouteGroup $routeGroup, RouteItem $routeItem): RouteItem|bool {
+        return $routeItem->update(array_merge(
+            $request->validated(),
+            array(
+                'route_group_id' => $routeGroup->id,
+                'status' => !blank($request->status) ? true : false
+            ),
+        ));
+    }
 }

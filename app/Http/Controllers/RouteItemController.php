@@ -40,8 +40,17 @@ class RouteItemController extends Controller
         ));
 
         return redirect()->back();
-        // return $routeItemService->create($request, $route)
-        // ? back()->with('success', 'Route item has been created successfully')
-        // : back()->with('failed', 'Route item was not been created successfully');
+    }
+
+    public function update(StoreRouteItemRequest $request, RouteGroup $route, RouteItem $item, RouteItemService $routeItemService) {
+        return $routeItemService->update($request, $route, $item)
+        ? back()->with('success', 'Route berhasil diperbaharui')
+        : back()->with('failed', 'ROute gagal diperbaharui');
+    }
+
+    public function destroy(RouteGroup $route, RouteItem $item) {
+        return $item->delete()
+        ? back()->with('success', 'Route berhasil dihapus')
+        : back()->with('failed', 'Route gagal dihapus');
     }
 }

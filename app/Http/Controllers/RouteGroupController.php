@@ -28,18 +28,9 @@ class RouteGroupController extends Controller
 
     public function store(StoreRouteGroupRequest $request, RouteGroupService $routeGroupService)
     {
-        RouteGroup::create(array_merge(
-            $request->validated(),
-            array(
-                'status' => !blank($request->status) ? true : false,
-                'position' => RouteGroup::max('position') + 1
-            ),
-        ));
-
-        return redirect()->back();
-        // return $routeGroupService->create($request)
-        // ? back()->with('success', 'Route group has been created successfully')
-        // : back()->withErrors($request)->withInput();
+        return $routeGroupService->create($request)
+        ? back()->with('success', 'Route group has been created successfully')
+        : back()->withErrors($request)->withInput();
     }
 
     public function update(StoreRouteGroupRequest $request, RouteGroup $route, RouteGroupService $routeGroupService)
