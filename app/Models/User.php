@@ -30,6 +30,7 @@ class User extends Authenticatable
         'idDepartment',
         'image',
         'status',
+        'statusUser'
     ];
 
     protected $primaryKey = 'userId';

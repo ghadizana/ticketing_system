@@ -69,7 +69,7 @@
                                     <option value="0">Client</option>   
                                 </select>
                             </div>
-                            @error('email')
+                            @error('statusUser')
                                 <div class="text text-danger text-start">{{ $message }}</div>
                             @enderror
                         </div>
@@ -126,7 +126,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-merge">
                                 <input type="text" class="form-control" name="idDepartment"
-                                    placeholder="Masukkan id department anda" autofocus required
+                                    placeholder="Masukkan id department anda" autofocus
                                     value="{{ old('idDepartment') }}" />
                             </div>
                             @error('idDepartment')

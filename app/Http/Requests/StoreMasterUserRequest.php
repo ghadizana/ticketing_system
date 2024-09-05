@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+
 class StoreMasterUserRequest extends FormRequest
 {
     /**
@@ -27,11 +28,11 @@ class StoreMasterUserRequest extends FormRequest
             'username' => 'required|string|unique:users',
             'password' => 'required|string',
             'idProyek' => 'nullable|string',
-            'idKaryawan' => 'required|string|unique:users',
+            'idKaryawan' => 'nullable|string|unique:users',
             'role' => 'nullable|string',
-            'idDepartment' => 'required|string',
+            'idDepartment' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            // 'statusUser' => 'required',
+            'statusUser' => 'required',
         ];
     }
 }
