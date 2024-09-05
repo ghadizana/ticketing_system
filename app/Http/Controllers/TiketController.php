@@ -12,7 +12,6 @@ use App\Models\TemporaryImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreTiketRequest;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class TiketController extends Controller
@@ -75,7 +74,6 @@ class TiketController extends Controller
             'tglSelesai' => 'nullable',
             'status' => 'nullable',
         ]);
-        // $manday = Mandays::where('idProyek', $tiket->idProyek)->first();
 
         $temporaryFiles = TemporaryImage::all();
 

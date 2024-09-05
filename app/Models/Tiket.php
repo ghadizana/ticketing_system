@@ -43,7 +43,7 @@ class Tiket extends Model
 
     public function proyeks()
     {
-        return $this->belongsTo(Proyek::class, 'idProyek');
+        return $this->belongsTo(Proyek::class, 'idProyek', 'idProyek');
     }
 
     public function komentars()
