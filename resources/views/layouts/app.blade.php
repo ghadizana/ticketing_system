@@ -44,8 +44,8 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
 
-    <link rel="stylesheet" href="assets/vendor/libs/animate-css/animate.css" />
-    <link rel="stylesheet" href="assets/vendor/libs/sweetalert2/sweetalert2.css" />
+    {{-- <link rel="stylesheet" href="assets/vendor/libs/animate-css/animate.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/sweetalert2/sweetalert2.css" /> --}}
 
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
@@ -77,7 +77,26 @@
 
 <body>
     <!-- Layout wrapper -->
-    @yield('content')
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <x-sidebar />
+            <div class="layout-page">
+                <x-topbar />
+                <div class="content-wrapper">
+                    <div class="container-fluid w-100 flex-grow-1 container-p-y">
+                        <div class="layout-demo-info">
+                            <div class="layout-demo-placeholder fs-tiny">
+                                @yield('content')
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-backdrop fade"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+    {{-- @yield('content') --}}
     <!-- / Layout wrapper -->
 
     <!-- Core JS -->
@@ -94,7 +113,7 @@
 
 
     <!-- Vendors JS -->
-    <script src="assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+    {{-- <script src="assets/vendor/libs/sweetalert2/sweetalert2.js"></script> --}}
 
     <!-- Filepond -->
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>

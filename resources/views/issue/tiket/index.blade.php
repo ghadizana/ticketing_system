@@ -1,127 +1,145 @@
 @extends('layouts.app')
 @section('title', 'Tiket')
 @section('content')
-    <div class="layout-wrapper layout-content-navbar">
-        <div class="layout-container">
-            <!-- Menu -->
-            @include('layouts.sidebar')
-            <!-- / Menu -->
+    <div class="container d-flex justify-content-between align-items-center">
+        <h4 class="py-3 mb-0">Detail Tiket</h4>
+        @if (Auth::user()->statusUser == 0)
+            <a class="btn btn-primary" href="{{ route('userTiket.create') }}">Tambah Tiket</a>
+        @else
+            <a class="btn btn-primary" href="{{ route('tiket.create') }}">Tambah Tiket</a>
+        @endif
+    </div>
 
-            <!-- Layout container -->
-            <div class="layout-page">
-                @include('layouts.topbar')
-                <!-- Content wrapper -->
-                <div class="content-wrapper">
-                    <!-- Content -->
-                    <div class="container-xxl flex-grow-1 container-p-y">
-                        <!-- Layout Demo -->
-                        <div class="layout-demo-info">
-                            <div class="layout-demo-placeholder">
-                                <div class="container d-flex justify-content-between align-items-center">
-                                    <h4 class="py-3 mb-0">Detail Tiket</h4>
-                                    @if (Auth::user()->statusUser == 0)
-                                        <a class="btn btn-primary" href="{{ route('userTiket.create') }}">Tambah Tiket</a>
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-sm text-start" id="tableTiket">
+                <thead class="table-dark">
+                    <tr class="text-start">
+                        <th>Select</th>
+                        <th>ID Tiket</th>
+                        <th>Nama Proyek</th>
+                        <th>Judul</th>
+                        <th>Deskripsi</th>
+                        <th>Alasan Permintaan</th>
+                        <th>Dampak</th>
+                        <th>Kategori</th>
+                        <th>Prioritas</th>
+                        <th>Severity</th>
+                        <th>Status Tiket</th>
+                        <th>PIC RS</th>
+                        <th>Assign To</th>
+                        <th>PL Aviat</th>
+                        <th>Mandays</th>
+                        <th>Status Mandays</th>
+                        <th>Tanggal Kirim</th>
+                        <th>Status Persetujuan</th>
+                        <th>Tanggal Persetujuan</th>
+                        <th>Tag</th>
+                        <th>Due Date</th>
+                        <th>Tanggal Dikerjakan</th>
+                        <th>Tanggal Selesai</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($tikets as $tiket)
+                        <tr class="text-start">
+                            <td><input type="checkbox"></td>
+                            <td><a href="{{ route('tiket.show', $tiket->idTiket) }}">{{ $tiket->idTiket }}</a></td>
+                            <td>{{ $tiket->proyeks->namaProyek ?? 'N/A' }}</td>
+                            <td>{{ $tiket->judul }}</td>
+                            <td>{{ $tiket->deskripsi }}</td>
+                            <td>{{ $tiket->alasanPermintaan }}</td>
+                            <td>{{ $tiket->dampak }}</td>
+                            <td>{{ $tiket->kategori }}</td>
+                            <td>
+                                @if ($tiket->prioritas === 'Urgent')
+                                    <span class="badge bg-label-danger me-1">{{ $tiket->prioritas }}</span>
+                                @elseif ($tiket->prioritas === 'High')
+                                    <span class="badge bg-label-warning me-1">{{ $tiket->prioritas }}</span>
+                                @elseif ($tiket->prioritas === 'Normal')
+                                    <span class="badge bg-label-success me-1">{{ $tiket->prioritas }}</span>
+                                @elseif ($tiket->prioritas === 'Low')
+                                    <span class="badge bg-label-info me-1">{{ $tiket->prioritas }}</span>
+                                @else
+                                    <span class="badge bg-label-secondary me-1">{{ $tiket->prioritas }}</span>
+                                @endif
+                            </td>
+                            <td>{{ $tiket->severity }}</td>
+                            <td>{{ $tiket->status }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{ $tiket->mandays }}</td>
+                            <td>
+                                @if (Auth::user()->statusUser == 0 && $tiket->statusMandays === null)
+                                    <form method="POST" action="{{ route('tiket-user.update', $tiket->idTiket) }}">
+                                        @csrf
+                                        @method('PUT')
+                                        <select name="statusMandays" class="form-select-sm" id="statusMandays">
+                                            <option value="" @if ($tiket->statusMandays === null) selected @endif>Pilih
+                                                Status</option>
+                                            <option value="0" @if ($tiket->statusMandays === 0) selected @endif>Tidak
+                                                Setuju</option>
+                                            <option value="1" @if ($tiket->statusMandays === 1) selected @endif>Setuju
+                                            </option>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary btn-xs"
+                                            onclick="return confirm('Apakah anda sudah yakin?')">Simpan</button>
+                                    </form>
+                                @else
+                                    @if ($tiket->statusMandays === 1)
+                                        <span>Setuju</span>
+                                    @elseif ($tiket->statusMandays === 0)
+                                        <span>Tidak Setuju</span>
                                     @else
-                                        <a class="btn btn-primary" href="{{ route('tiket.create') }}">Tambah Tiket</a>
+                                        <span>Belum diisi</span>
                                     @endif
-                                </div>
-
-                                <div class="card">
-                                    <div class="table-responsive">
-                                        <table class="table display" id="tableTiket">
-                                            <thead class="table-dark">
-                                                <tr class="text-start">
-                                                    <th>Select</th>
-                                                    <th>ID Tiket</th>
-                                                    <th>Nama Proyek</th>
-                                                    <th>Judul</th>
-                                                    <th>Deskripsi</th>
-                                                    <th>Kategori</th>
-                                                    <th>Prioritas</th>
-                                                    <th>Severity</th>
-                                                    <th>Tanggal Kirim</th>
-                                                    <th>Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @forelse ($tikets as $tiket)
-                                                    <tr class="text-start">
-                                                        <td><input type="checkbox"></td>
-                                                        <td><a
-                                                                href="{{ route('tiket.show', $tiket->idTiket) }}">{{ $tiket->idTiket }}</a>
-                                                        </td>
-                                                        <td>{{ $tiket->proyeks->namaProyek ?? 'N/A' }}</td>
-                                                        <td>{{ $tiket->judul }}</td>
-                                                        <td>{{ $tiket->deskripsi }}</td>
-                                                        <td>{{ $tiket->kategori }}</td>
-                                                        <td>
-                                                            @if ($tiket->prioritas === 'Urgent')
-                                                                <span
-                                                                    class="badge bg-label-danger me-1">{{ $tiket->prioritas }}</span>
-                                                            @elseif ($tiket->prioritas === 'High')
-                                                                <span
-                                                                    class="badge bg-label-warning me-1">{{ $tiket->prioritas }}</span>
-                                                            @elseif ($tiket->prioritas === 'Normal')
-                                                                <span
-                                                                    class="badge bg-label-success me-1">{{ $tiket->prioritas }}</span>
-                                                            @elseif ($tiket->prioritas === 'Low')
-                                                                <span
-                                                                    class="badge bg-label-info me-1">{{ $tiket->prioritas }}</span>
-                                                            @else
-                                                                <span
-                                                                    class="badge bg-label-secondary me-1">{{ $tiket->prioritas }}</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>{{ $tiket->severity }}</td>
-                                                        <td>{{ $tiket->created_at->format('d M Y') }}</td>
-                                                        <td>
-                                                            <div class="dropdown">
-                                                                <button type="button"
-                                                                    class="btn p-0 dropdown-toggle hide-arrow"
-                                                                    data-bs-toggle="dropdown"><i
-                                                                        class="bx bx-dots-vertical-rounded"></i></button>
-                                                                <div class="dropdown-menu">
-                                                                    <a class="dropdown-item"
-                                                                        href="{{ route('tiket.show', $tiket->idTiket) }}"><i
-                                                                            class="bx bx-edit-alt me-2"></i>Edit</a>
-                                                                    <form
-                                                                        action="{{ route('tiket.destroy', $tiket->idTiket) }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit" class="dropdown-item"
-                                                                            onclick="return confirm('Apakah anda yakin ingin menghapus?')">
-                                                                            <i class="bx bx-trash me-2"></i>Hapus
-                                                                        </button>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @empty
-                                                    <tr>
-                                                        <th colspan="9" class="text-center">Tidak ada data untuk
-                                                            ditampilkan</th>
-                                                    </tr>
-                                                @endforelse
-                                            </tbody>
-                                        </table>
+                                @endif
+                            </td>
+                            <td>{{ $tiket->created_at->format('d M Y') }}</td>
+                            <td>
+                                @if ($tiket->persetujuan === 1)
+                                    <span>Disetujui</span>
+                                @elseif ($tiket->persetujuan === 0)
+                                    <span>Tidak disetujui</span>
+                                @else
+                                    <span></span>
+                                @endif
+                            </td>
+                            <td>{{ $tiket->tglPersetujuan }}</td>
+                            <td>{{ $tiket->tag }}</td>
+                            <td>{{ $tiket->dueDate }}</td>
+                            <td>{{ $tiket->tglDikerjakan }}</td>
+                            <td>{{ $tiket->tglSelesai }}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                        data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{{ route('tiket.show', $tiket->idTiket) }}"><i
+                                                class="bx bx-edit-alt me-2"></i>Edit</a>
+                                        <form action="{{ route('tiket.destroy', $tiket->idTiket) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item"
+                                                onclick="return confirm('Apakah anda yakin ingin menghapus?')">
+                                                <i class="bx bx-trash me-2"></i>Hapus
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <!--/ Layout Demo -->
-                    </div>
-                    <!-- / Content -->
-
-                    <div class="content-backdrop fade"></div>
-                </div>
-                <!-- Content wrapper -->
-            </div>
-            <!-- / Layout page -->
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <th colspan="9" class="text-center">Tidak ada data untuk
+                                ditampilkan</th>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
-        <!-- Overlay -->
-        <div class="layout-overlay layout-menu-toggle"></div>
     </div>
 @endsection
 
@@ -144,48 +162,6 @@
                 style: 'multi',
                 selector: 'td:first-child input[type="checkbox"]'
             },
-            columns: [{
-                    visible: true,
-                    title: "Select",
-                    exportable: false,
-                },
-                {
-                    visible: true,
-                    title: "ID Tiket"
-                },
-                {
-                    visible: true,
-                    title: "Nama Proyek"
-                },
-                {
-                    visible: true,
-                    title: "Judul"
-                },
-                {
-                    visible: true,
-                    title: "Deskripsi"
-                },
-                {
-                    visible: true,
-                    title: "Kategori"
-                },
-                {
-                    visible: true,
-                    title: "Prioritas"
-                },
-                {
-                    visible: true,
-                    title: "Severity"
-                },
-                {
-                    visible: true,
-                    title: "Tanggal Kirim"
-                },
-                {
-                    visible: true,
-                    title: "Aksi"
-                }
-            ],
             buttons: [{
                     extend: 'copyHtml5',
                     exportOptions: {
