@@ -7,23 +7,12 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        <!-- Search -->
-        <div class="navbar-nav align-items-center">
-            <div class="nav-item d-flex align-items-center">
-                <i class="bx bx-search fs-4 lh-0"></i>
-                <input type="text" class="form-control border-0 shadow-none ps-1 ps-sm-2" placeholder="Search..."
-                    aria-label="Search..." />
-            </div>
-        </div>
-        <!-- /Search -->
-
         <ul class="navbar-nav flex-row align-items-center ms-auto">
-
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar">
-                        <img src="{{ asset('storage/uploads/' . Auth::user()->image) }}" alt class="rounded-circle" />
+                        <img src="{{ asset('storage/profiles/' . $user->image) }}" alt class="rounded-circle" />
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -32,8 +21,8 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar">
-                                        @if (file_exists('storage/uploads/' . Auth::user()->image))
-                                            <img src="{{ asset('storage/uploads/' . Auth::user()->image) }}" alt
+                                        @if (file_exists('storage/uploads/' . $user->image))
+                                            <img src="{{ asset('storage/uploads/' . $user->image) }}" alt
                                                 class="rounded-circle" />
                                         @else
                                             <img src="{{ asset('storage/uploads/profile.png') }}" alt
@@ -42,8 +31,8 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <span class="fw-medium d-block">{{ Auth::user()->nama }}</span>
-                                    <small class="text-muted">{{ Auth::user()->getRoleNames()->first() }}</small>
+                                    <span class="fw-medium d-block">{{ $user->nama }}</span>
+                                    <small class="text-muted">{{ $user->getRoleNames()->first() }}</small>
                                 </div>
                             </div>
                         </a>
@@ -52,7 +41,7 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ route('masterUser.show', Auth::user()->userId) }}">
+                        <a class="dropdown-item" href="{{ route('masterUser.show', $user->userId) }}">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">My Profile</span>
                         </a>
