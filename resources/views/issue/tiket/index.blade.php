@@ -12,33 +12,33 @@
 
     <div class="card">
         <div class="table-responsive">
-            <table class="table table-sm text-start" id="tableTiket">
+            <table class="table table-sm text-start table-striped" id="tableTiket">
                 <thead class="table-dark">
-                    <tr class="text-start">
-                        <th>Select</th>
-                        <th>ID Tiket</th>
-                        <th>Nama Proyek</th>
-                        <th>Judul</th>
-                        <th>Deskripsi</th>
-                        <th>Alasan Permintaan</th>
-                        <th>Dampak</th>
-                        <th>Kategori</th>
-                        <th>Prioritas</th>
-                        <th>Severity</th>
-                        <th>Status Tiket</th>
-                        <th>PIC RS</th>
-                        <th>Assign To</th>
-                        <th>PL Aviat</th>
-                        <th>Mandays</th>
-                        <th>Status Mandays</th>
-                        <th>Tanggal Kirim</th>
-                        <th>Status Persetujuan</th>
-                        <th>Tanggal Persetujuan</th>
-                        <th>Tag</th>
-                        <th>Due Date</th>
-                        <th>Tanggal Dikerjakan</th>
-                        <th>Tanggal Selesai</th>
-                        <th>Aksi</th>
+                    <tr>
+                        <th class="text-white">Select</th>
+                        <th class="text-white">ID Tiket</th>
+                        <th class="text-white">Nama Proyek</th>
+                        <th class="text-white">Judul</th>
+                        <th class="text-white">Deskripsi</th>
+                        <th class="text-white">Alasan Permintaan</th>
+                        <th class="text-white">Dampak</th>
+                        <th class="text-white">Kategori</th>
+                        <th class="text-white">Prioritas</th>
+                        <th class="text-white">Severity</th>
+                        <th class="text-white">Status Tiket</th>
+                        <th class="text-white">PIC RS</th>
+                        <th class="text-white">Assign To</th>
+                        <th class="text-white">PL Aviat</th>
+                        <th class="text-white">Mandays</th>
+                        <th class="text-white">Status Mandays</th>
+                        <th class="text-white">Tanggal Kirim</th>
+                        <th class="text-white">Status Persetujuan</th>
+                        <th class="text-white">Tanggal Persetujuan</th>
+                        <th class="text-white">Tag</th>
+                        <th class="text-white">Due Date</th>
+                        <th class="text-white">Tanggal Dikerjakan</th>
+                        <th class="text-white">Tanggal Selesai</th>
+                        <th class="text-white">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -144,8 +144,8 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script> --}}
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script> --}}
     <script
         src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.1.3/b-3.1.1/b-colvis-3.1.1/b-html5-3.1.1/b-print-3.1.1/sl-2.0.4/datatables.min.js">
     </script>
