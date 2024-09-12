@@ -43,7 +43,13 @@
                     <li>
                         <a class="dropdown-item" href="{{ route('masterUser.show', $user->userId) }}">
                             <i class="bx bx-user me-2"></i>
-                            <span class="align-middle">My Profile</span>
+                            <span class="align-middle">Profile Saya</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('updatePassword') }}" class="dropdown-item">
+                            <i class="bx bx-key me-2"></i>
+                            <span class="align-middle">Ubah Password</span>
                         </a>
                     </li>
                     <li>

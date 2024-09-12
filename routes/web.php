@@ -24,6 +24,8 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'login')->name('login');
     Route::post('/login', 'actionLogin')->name('actionLogin');
     Route::post('/logout', 'logout')->name('logout');
+    Route::get('/change-password', 'update')->name('updatePassword');
+    Route::post('/change-password', 'changePassword')->name('changePassword');
 });
 
 Route::resource('auth', AuthController::class);
