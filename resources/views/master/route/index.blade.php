@@ -13,11 +13,11 @@
             <table class="table small-font-size text-start table-striped" id="routeTable">
                 <thead class="table-dark">
                     <tr>
-                        <th>Nama</th>
-                        <th>Menu</th>
-                        <th>Icon</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
+                        <th class="text-white">Nama</th>
+                        <th class="text-white">Menu</th>
+                        <th class="text-white">Icon</th>
+                        <th class="text-white">Status</th>
+                        <th class="text-white">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
