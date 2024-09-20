@@ -180,8 +180,16 @@
                         columns: ':visible:not(:first-child)'
                     }
                 },
-                'colvis',
+                {
+                    extend: 'colvis',
+                }
             ],
+            'columnDefs': [{
+                targets: [
+                    4, 5, 6, 11, 12, 13, 16, 17, 18, 19, 21, 22
+                ],
+                visible: false,
+            }]
         });
     </script>
 @endpush
